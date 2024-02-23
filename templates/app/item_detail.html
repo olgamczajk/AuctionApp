@@ -1,0 +1,35 @@
+{% extends 'page.html' %}
+{% load static %}
+{% block content %}
+    <div class="item-details">
+    <h3>{{ item.title }}</h3>
+    <p><b>Description:</b> {{ item.description }}</p>
+        <p><b>Start Price:</b> {{ item.start_price }} {{ item.currency }}</p>
+        <p><b>Current Bid:</b> {{ item.current_bid }} {{ item.currency }}</p>
+        <p><b>Owner:</b> {{ item.owner.username }}</p>
+    <img src={% static item.image.filename %} />
+    {% if item.owner == request.user %}
+        <form method="post">
+        {% csrf_token %}
+    <button type="submit" class="btn btn-primary">End auction</button>
+        </form>
+        </div>
+    {% else %}
+        </div>
+        <hr>
+    <div class="bid-form">
+            <form method="post">
+                {% csrf_token %}
+                    <h3>Place Bid</h3>
+                {% if error_message %}
+                    <p class="error-message">{{ error_message }}</p>
+                {% endif %}
+            <p>
+                    <label for="bid_amount">Bid Amount:</label>
+	 	            {{ form.amount }}
+                </p>
+            <button type="submit">Place Bid</button>
+        </form>
+        </div>
+    {% endif %}
+{% endblock content%}

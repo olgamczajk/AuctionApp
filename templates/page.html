@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="{%  static 'styles.css'%}" media="screen">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" initial-scale=1.0" />
+        <title>{% if title %} {{title}}{% endif %}</title>
+    </head>
+    <body>
+    <div class="wrapper">
+        <header>
+  		{%if request.user.is_authenticated %}
+  			<span>Hi {{ request.user.username | title }}</span>
+  			<a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'home' %}">Home</a>
+  		{%else%}
+  			<a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+  		{%endif%}
+  	    </header>
+    <div class="content">
+        <main>
+        {% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</div>
+			{% endfor %}
+            </div>
+			
+		{% endif %}
+        {% block content %}
+        {% endblock content%}
+        </main>
+    </div>
+    
+        <footer>
+            <p>&copy; 2024 BidBay</p>
+        </footer>
+    </div>
+    </body>
+</html>

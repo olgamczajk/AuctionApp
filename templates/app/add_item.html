@@ -1,0 +1,23 @@
+{% extends 'page.html' %}
+{% block content %}
+<div class="container">
+        <h2>Add Item</h2>
+<br>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+	        <p>
+		        {% if field.errors %}
+		            <ul class="errorlist">
+			    {% for error in field.errors %}
+			        <li>{{ error }}</li>
+			    {% endfor %}
+		        </ul>
+		        {% endif %}
+	 	        {{ field.label_tag }} {{ field }}
+	        </p>
+            {% endfor %}
+            <button type="submit">Add Item</button>
+        </form>
+    </div>
+{% endblock content %}
